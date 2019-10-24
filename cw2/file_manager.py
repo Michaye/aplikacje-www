@@ -8,7 +8,3 @@ class FileManager:
     def read_file(self):
         return self.file_name
 
-
-fm = FileManager("topw")
-fm.update_file(".txt")
-print(fm.read_file())
