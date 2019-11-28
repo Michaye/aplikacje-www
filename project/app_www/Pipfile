@@ -10,6 +10,7 @@ django = "*"
 djangorestframework = "*"
 pytz = "*"
 sqlparse = "*"
+mysqlclient = "*"
 
 [requires]
 python_version = "3.6"
