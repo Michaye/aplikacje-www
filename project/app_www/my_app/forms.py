@@ -26,7 +26,7 @@ class CustomUserChangeForm(UserChangeForm):
 class CustomUserEditProfile(UserChangeForm):
     class Meta:
         model = CustomUser
-        fields = ("email", "login", "is_active", "password", "date_joined")
+        fields = ("email", "login", "is_active", "password")
 
 
 class CustomWorkerCreationForm(UserCreationForm):

@@ -8,7 +8,7 @@ from .models import Room, CustomUser, Comment
 class RoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
-        fields = ["room"]
+        fields = ["room_type"]
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -49,9 +49,12 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    custom_user_name = serializers.RelatedField(source='category', read_only=True)
+    room_room_type = serializers.RelatedField(source='category', read_only=True)
+
     class Meta:
         model = Comment
-        fields = ["content", "user", "room"]
+        fields = ["content", "custom_user_name", "room_room_type"]
 
     def validate_content(self, content):
         if not content:

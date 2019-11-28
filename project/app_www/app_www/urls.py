@@ -16,9 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from my_app.views import index
+from my_app.views import Index, Users, Comments, Rooms
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name="index"),
+    path('', Index.as_view(), name="index"),
+    path('new-user/', Users.as_view(), name="create_user"),
+    path('new-room/', Rooms.as_view(), name="create_room"),
+    path('new-comment/', Comments.as_view(), name="create_comment"),
 ]
