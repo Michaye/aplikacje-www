@@ -16,12 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from my_app.views import Index, Users, Comments, Rooms
+from my_app.views import Index, Users, Comments, Rooms, CreateUser
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', Index.as_view(), name="index"),
-    path('new-user/', Users.as_view(), name="create_user"),
-    path('new-room/', Rooms.as_view(), name="create_room"),
-    path('new-comment/', Comments.as_view(), name="create_comment"),
+    path("admin/", admin.site.urls),
+    path("", Index.as_view(), name="index"),
+    path("users/", Users.as_view(), name="users"),
+    path("rooms/", Rooms.as_view(), name="rooms"),
+    path("comments/", Comments.as_view(), name="comments"),
+    path("users/add/", CreateUser.as_view(), name="new_user"),
 ]

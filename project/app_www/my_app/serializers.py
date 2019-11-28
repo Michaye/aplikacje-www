@@ -14,7 +14,7 @@ class RoomSerializer(serializers.ModelSerializer):
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ["name", "surname", "login", "email", "password"]
+        fields = ["login", "name", "surname", "email", "password"]
 
     def validate_name(self, name):
         if not name or not name.isalpha():
@@ -29,9 +29,10 @@ class CustomUserSerializer(serializers.ModelSerializer):
     def validate_login(self, login):
         if not login or not login.isalpha():
             raise serializers.ValidationError("Login cannot be empty field")
+        return login
 
     def validate_email(self, email):
-        regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
+        regex = "^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
         if not (re.search(regex, email)):
             raise serializers.ValidationError("Wrong email format!")
         else:
@@ -39,18 +40,24 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     def validate_password(self, password):
         if len(password) < 8:
-            raise serializers.ValidationError("Make sure your password is at lest 8 letters")
-        elif re.search('[0-9]', password) is None:
-            raise serializers.ValidationError("Make sure your password has a number in it")
-        elif re.search('[A-Z]', password) is None:
-            raise serializers.ValidationError("Make sure your password has a capital letter in it")
+            raise serializers.ValidationError(
+                "Make sure your password is at lest 8 letters"
+            )
+        elif re.search("[0-9]", password) is None:
+            raise serializers.ValidationError(
+                "Make sure your password has a number in it"
+            )
+        elif re.search("[A-Z]", password) is None:
+            raise serializers.ValidationError(
+                "Make sure your password has a capital letter in it"
+            )
         else:
             return password
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    custom_user_name = serializers.RelatedField(source='category', read_only=True)
-    room_room_type = serializers.RelatedField(source='category', read_only=True)
+    custom_user_name = serializers.RelatedField(source="category", read_only=True)
+    room_room_type = serializers.RelatedField(source="category", read_only=True)
 
     class Meta:
         model = Comment

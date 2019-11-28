@@ -9,10 +9,10 @@ class Room(models.Model):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    name = models.CharField(max_length=254, blank=False, null=False)
-    surname = models.CharField(max_length=254, blank=False, null=False)
-    login = models.CharField(unique=True, max_length=254, blank=False, null=False)
-    email = models.EmailField(blank=True, null=True)
+    name = models.CharField(max_length=254, blank=True, null=True)
+    surname = models.CharField(max_length=254, blank=True, null=True)
+    login = models.CharField(unique=True, max_length=254, blank=True, null=False)
+    email = models.EmailField(unique=True, blank=True, null=False)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 
@@ -30,6 +30,4 @@ class Comment(models.Model):
     user = models.ForeignKey(
         to=CustomUser, on_delete=models.PROTECT, blank=False, null=False
     )
-    room = models.ForeignKey(
-        to=Room, on_delete=models.PROTECT, blank=False, null=False
-    )
+    room = models.ForeignKey(to=Room, on_delete=models.PROTECT, blank=False, null=False)
