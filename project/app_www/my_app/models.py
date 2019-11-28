@@ -5,7 +5,10 @@ from django.db import models
 
 
 class Room(models.Model):
-    room_type = models.CharField(unique=True, max_length=254, blank=True, null=True)
+    name = models.CharField(unique=True, max_length=254, blank=True, null=False)
+
+    def __str__(self):
+        return self.name
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):

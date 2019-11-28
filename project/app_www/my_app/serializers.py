@@ -8,7 +8,12 @@ from .models import Room, CustomUser, Comment
 class RoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
-        fields = ["room_type"]
+        fields = ["name"]
+
+    def validate_name(self, name):
+        if not name:
+            raise serializers.ValidationError("Name cannot be empty field")
+        return name
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
