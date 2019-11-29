@@ -1,17 +1,24 @@
 from my_app.models import Room, Comment, CustomUser
+from my_app.serializers import RoomSerializer, CommentSerializer, CustomUserSerializer
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.parsers import JSONParser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from my_app.serializers import RoomSerializer, CommentSerializer, CustomUserSerializer
-
 
 class Index(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
-        return Response(status=200)
+        return Response({"message": f"Hello {self.request.user}!"}, status=200)
 
 
 class Users(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         return Response(
             {"Users": CustomUserSerializer(CustomUser.objects.all(), many=True).data},
@@ -20,6 +27,9 @@ class Users(APIView):
 
 
 class Rooms(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         return Response(
             {"rooms": RoomSerializer(Room.objects.all(), many=True).data}, status=200
@@ -27,6 +37,9 @@ class Rooms(APIView):
 
 
 class Comments(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         return Response(
             {"comments": CommentSerializer(Comment.objects.all(), many=True).data},
@@ -35,11 +48,12 @@ class Comments(APIView):
 
 
 class CreateUser(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     parser_classes = [JSONParser]
 
     def post(self, request):
         serializer = CustomUserSerializer(data=self.request.data)
-        print(serializer.is_valid())
         if serializer.is_valid():
             serializer.save()
             return Response({"message": "User created!"}, 200)
@@ -48,6 +62,8 @@ class CreateUser(APIView):
 
 
 class CreateRoom(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     parser_classes = [JSONParser]
 
     def post(self, request):
@@ -57,3 +73,54 @@ class CreateRoom(APIView):
             return Response({"message": "Room created!"}, 200)
         else:
             return Response({"message": "Cannot create new room!"}, 400)
+
+
+class AddComment(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+    parser_classes = [JSONParser]
+
+    def post(self, request):
+        serializer = CommentSerializer(data=self.request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Added new comment!"}, 200)
+        else:
+            return Response(
+                {"message": "Cannot add comment!", "errors": serializer.errors}, 400
+            )
+
+
+class EditProfile(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+    parser_classes = [JSONParser]
+
+    def patch(self, request):
+        serializer = CustomUserSerializer(
+            self.request.user, data=self.request.data, partial=True
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "User updated!"}, 200)
+        else:
+            return Response({"error": serializer.errors}, 400)
+
+
+class EditRoom(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+    parser_classes = [JSONParser]
+
+    def patch(self, request):
+        try:
+            room = Room.objects.get(name=self.request.data["current_name"])
+        except Exception:
+            return Response({"error": "Room does not exists!"}, 400)
+
+        serializer = RoomSerializer(room, data=self.request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Room updated!"}, 200)
+        else:
+            return Response({"error": serializer.errors}, 400)

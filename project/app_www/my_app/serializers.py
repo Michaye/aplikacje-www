@@ -61,12 +61,14 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    custom_user_name = serializers.RelatedField(source="category", read_only=True)
-    room_room_type = serializers.RelatedField(source="category", read_only=True)
+    room = serializers.SlugRelatedField(slug_field="name", queryset=Room.objects.all())
+    user = serializers.SlugRelatedField(
+        slug_field="login", queryset=CustomUser.objects.all()
+    )
 
     class Meta:
         model = Comment
-        fields = ["content", "custom_user_name", "room_room_type"]
+        fields = ["content", "room", "user"]
 
     def validate_content(self, content):
         if not content:
