@@ -1,5 +1,5 @@
 from my_app.models import Room, Comment, CustomUser
-from my_app.serializers import RoomSerializer, CommentSerializer, CustomUserSerializer
+from my_app.serializers import RoomSerializer, CommentSerializer, CustomUserSerializer, AddressSerializer
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import IsAuthenticated
@@ -124,3 +124,19 @@ class EditRoom(APIView):
             return Response({"message": "Room updated!"}, 200)
         else:
             return Response({"error": serializer.errors}, 400)
+
+
+class CreateUserAddress(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+    parser_classes = [JSONParser]
+
+    def post(self, request):
+        serializer = AddressSerializer(data=self.request.data)
+        if serializer.is_valid():
+            address = serializer.save()
+            request.user.address = address
+            request.user.save()
+            return Response({"message": "Address created!"}, 200)
+        else:
+            return Response({"message": "Address creation failed!"}, 400)

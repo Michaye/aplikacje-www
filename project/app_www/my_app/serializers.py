@@ -77,3 +77,9 @@ class CommentSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Your comment can only have 254 letters!")
         else:
             return content
+
+
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ["country", "city", "street"]
