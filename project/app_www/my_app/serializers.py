@@ -22,7 +22,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ["id", "login", "name", "surname", "email", "password", "followed"]
+        fields = ["id", "login", "name", "surname", "email", "password", "followed", "is_active", "is_superuser"]
 
     def validate_name(self, name):
         if not name or not name.isalpha():

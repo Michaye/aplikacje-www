@@ -27,6 +27,7 @@ from my_app.views import (
     EditProfile,
     EditRoom,
     CreateUserAddress,
+    BanUser,
 )
 
 urlpatterns = [
@@ -42,4 +43,5 @@ urlpatterns = [
     path("users/edit/", EditProfile.as_view(), name="edit_profile"),
     path("rooms/edit/", EditRoom.as_view(), name="edit_room"),
     path("users/edit/address/", CreateUserAddress.as_view(), name="address"),
+    path("ban/user=<int:id>/", BanUser.as_view(), name="ban"),
 ]

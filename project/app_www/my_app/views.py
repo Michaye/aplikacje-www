@@ -2,7 +2,7 @@ from my_app.models import Room, Comment, CustomUser
 from my_app.serializers import RoomSerializer, CommentSerializer, CustomUserSerializer, AddressSerializer
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.parsers import JSONParser
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -149,3 +149,14 @@ class CreateUserAddress(APIView):
             return Response({"message": "Address changed!"}, 200)
         else:
             return Response({"message": "Address creation failed!"}, 400)
+
+
+class BanUser(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAdminUser]
+
+    def get(self, request, id):
+        user = CustomUser.objects.get(id=id)
+        user.is_active = False
+        user.save()
+        return Response({"message": f"User {user} banned!"}, 200)
