@@ -17,9 +17,11 @@ class RoomSerializer(serializers.ModelSerializer):
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
+    followed = serializers.SlugRelatedField(slug_field="login", queryset=CustomUser.objects.all(), many=True)
+
     class Meta:
         model = CustomUser
-        fields = ["id", "login", "name", "surname", "email", "password"]
+        fields = ["id", "login", "name", "surname", "email", "password", "followed"]
 
     def validate_name(self, name):
         if not name or not name.isalpha():

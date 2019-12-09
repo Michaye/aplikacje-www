@@ -12,6 +12,8 @@ class Index(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        user = CustomUser.objects.get(login="testtest")
+        user.followed.add(CustomUser.objects.get(login="epeloo"))
         return Response({"message": f"Hello {self.request.user}!"}, status=200)
 
 

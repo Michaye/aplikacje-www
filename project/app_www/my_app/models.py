@@ -27,6 +27,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     address = models.ForeignKey(
         to=Address, on_delete=models.CASCADE, blank=True, null=True
     )
+    followed = models.ManyToManyField(to='CustomUser', blank=True)
 
     USERNAME_FIELD = "login"
     REQUIRED_FIELDS = []
