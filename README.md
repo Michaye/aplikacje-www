@@ -1,6 +1,12 @@
 # aplikacje-www
 141313/133214
 
+[Model bazy danych](README.md#model-bazy-danych)
+
+[Jak uruchomić](README.md#jak-uruchomić)
+
+[Jak przetestować aplikacje](README.md#jak-przetestować-aplikacje)
+
 # Model bazy danych
 ![db_schema](db_schema.png)
 
@@ -68,8 +74,3 @@ I uruchamiamy serwer:
     
     - Edytuj użytkownika address użytkownika (zalogowany użytkownik edytuje tutaj swój adres)
     path("users/edit/address/", CreateUserAddress.as_view(), name="address"),
-    
-
-
-
-
