@@ -136,12 +136,16 @@ class CreateUserAddress(APIView):
         return Response({"address": AddressSerializer(user.address).data}, status=200)
 
     def post(self, request, id):
-        serializer = AddressSerializer(data=self.request.data)
+        user = CustomUser.objects.get(id=id)
+        if not user.address:
+            serializer = AddressSerializer(data=self.request.data)
+        else:
+            serializer = AddressSerializer(user.address, data=self.request.data, partial=True)
+
         if serializer.is_valid():
             address = serializer.save()
-            user = CustomUser.objects.get(id=id)
             user.address = address
             user.save()
-            return Response({"message": "Address created!"}, 200)
+            return Response({"message": "Address changed!"}, 200)
         else:
             return Response({"message": "Address creation failed!"}, 400)
