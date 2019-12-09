@@ -63,7 +63,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     room = serializers.SlugRelatedField(slug_field="name", queryset=Room.objects.all())
     user = serializers.SlugRelatedField(
-        slug_field="", queryset=CustomUser.objects.all()
+        slug_field="login", queryset=CustomUser.objects.all()
     )
 
     class Meta:
