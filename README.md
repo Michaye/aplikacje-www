@@ -31,28 +31,45 @@ I uruchamiamy serwer:
 # Jak przetestować aplikacje
 ścieżki:
 
+     - dostep do bazy danych Django
     path("admin/", admin.site.urls),
-    path("api/", include("rest_framework.urls")),
-    path("", Index.as_view(), name="index"),
-    path("users/", Users.as_view(), name="users"),
-    path("rooms/", Rooms.as_view(), name="rooms"),
-    path("comments/", Comments.as_view(), name="comments"),
-    path("users/add/", CreateUser.as_view(), name="new_user"),
-    path("rooms/add/", CreateRoom.as_view(), name="new_room"),
-    path("comments/add/", AddComment.as_view(), name="new_comment"),
-    path("users/edit/", EditProfile.as_view(), name="edit_profile"),
-    path("rooms/edit/", EditRoom.as_view(), name="edit_room"),
-    path("users/<int:id>/address/", CreateUserAddress.as_view(), name="address"),
-
-path("admin/", admin.site.urls), - dostep do bazy danych Django
-
-path("", Index.as_view(), name="index"),  - Strona startowa
-
-path("users/", Users.as_view(), name="users"),  - Zwraca liste zarejestrowanych użytkownikow
-
-path("rooms/", Rooms.as_view(), name="rooms"),  - Zwraca liste utworzonych pokojów
     
-path("comments/", Comments.as_view(), name="comments"),   - Zwraca liste dodanych komentarzy
+    path("api/", include("rest_framework.urls")),
+    
+    - Strona startowa
+    path("", Index.as_view(), name="index"),
+    
+    - Zwraca liste zarejestrowanych użytkownikow
+    path("users/", Users.as_view(), name="users"),  
+    
+    - Zwraca liste utworzonych pokojów
+    path("rooms/", Rooms.as_view(), name="rooms"),  
+    
+    - Zwraca liste dodanych komentarzy
+    path("comments/", Comments.as_view(), name="comments"),
+    
+    - Dodaj uzytkownika:
+    wymagane pola - login, email, password
+    path("users/add/", CreateUser.as_view(), name="new_user"),
+    
+    - Dodaj pokój
+    wymagane pole - name
+    path("rooms/add/", CreateRoom.as_view(), name="new_room"),
+    
+    - dodaj komentarz
+    wymagane pola - conetent, user(login), room(name)
+    path("comments/add/", AddComment.as_view(), name="new_comment"),
+    
+    - Edytuj profil, pola - name,  surname, email, login, password
+    path("users/edit/", EditProfile.as_view(), name="edit_profile"),
+    
+    - Edytuj pokój, pola - name
+    path("rooms/edit/", EditRoom.as_view(), name="edit_room"),
+    
+    - Edytuj użytkownika address użytkownika (zalogowany użytkownik edytuje tutaj swój adres)
+    path("users/edit/address/", CreateUserAddress.as_view(), name="address"),
+    
+
 
 
 

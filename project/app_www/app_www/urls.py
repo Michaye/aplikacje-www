@@ -41,5 +41,5 @@ urlpatterns = [
     path("comments/add/", AddComment.as_view(), name="new_comment"),
     path("users/edit/", EditProfile.as_view(), name="edit_profile"),
     path("rooms/edit/", EditRoom.as_view(), name="edit_room"),
-    path("users/<int:id>/address/", CreateUserAddress.as_view(), name="address"),
+    path("users/edit/address/", CreateUserAddress.as_view(), name="address"),
 ]
