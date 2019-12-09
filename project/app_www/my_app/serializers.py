@@ -1,5 +1,6 @@
 import re
 
+from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 
 from .models import Room, CustomUser, Comment, Address
@@ -59,7 +60,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
                 "Make sure your password has a capital letter in it"
             )
         else:
-            return password
+            return make_password(password)
 
 
 class CommentSerializer(serializers.ModelSerializer):
