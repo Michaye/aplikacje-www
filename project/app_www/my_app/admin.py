@@ -1,12 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
-from .models import CustomUser, Comment, Room
+from .models import CustomUser, Comment, Room, Address
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm, GroupAdminForm
 
 admin.site.register(Comment)
 admin.site.register(Room)
+admin.site.register(Address)
 
 
 class CustomUserAdmin(UserAdmin):
@@ -16,7 +17,7 @@ class CustomUserAdmin(UserAdmin):
     list_display = ("login", "email", "is_staff", "is_active")
     list_filter = ("is_staff", "is_active")
     fieldsets = (
-        (None, {"fields": ("login", "email", "password", "name", "surname")}),
+        (None, {"fields": ("login", "email", "password", "name", "surname", "address")}),
         ("Permissions", {"fields": ("is_staff", "is_active")}),
     )
     add_fieldsets = (

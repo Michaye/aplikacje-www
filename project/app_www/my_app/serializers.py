@@ -2,13 +2,13 @@ import re
 
 from rest_framework import serializers
 
-from .models import Room, CustomUser, Comment
+from .models import Room, CustomUser, Comment, Address
 
 
 class RoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
-        fields = ["name"]
+        fields = ["id", "name"]
 
     def validate_name(self, name):
         if not name:
@@ -19,7 +19,7 @@ class RoomSerializer(serializers.ModelSerializer):
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ["login", "name", "surname", "email", "password"]
+        fields = ["id", "login", "name", "surname", "email", "password"]
 
     def validate_name(self, name):
         if not name or not name.isalpha():
@@ -63,7 +63,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     room = serializers.SlugRelatedField(slug_field="name", queryset=Room.objects.all())
     user = serializers.SlugRelatedField(
-        slug_field="login", queryset=CustomUser.objects.all()
+        slug_field="", queryset=CustomUser.objects.all()
     )
 
     class Meta:
@@ -81,5 +81,5 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Comment
+        model = Address
         fields = ["country", "city", "street"]

@@ -28,7 +28,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         to=Address, on_delete=models.CASCADE, blank=True, null=True
     )
 
-
     USERNAME_FIELD = "login"
     REQUIRED_FIELDS = []
 
