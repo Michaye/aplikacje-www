@@ -12,8 +12,6 @@ class Index(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        user = CustomUser.objects.get(login="testtest")
-        user.followed.add(CustomUser.objects.get(login="epeloo"))
         return Response({"message": f"Hello {self.request.user}!"}, status=200)
 
 
@@ -57,7 +55,6 @@ class CreateUser(APIView):
     def post(self, request):
         serializer = CustomUserSerializer(data=self.request.data)
         if serializer.is_valid():
-            serializer.save()
             return Response({"message": "User created!"}, 200)
         else:
             return Response({"message": "User creation failed!"}, 400)
@@ -160,3 +157,24 @@ class BanUser(APIView):
         user.is_active = False
         user.save()
         return Response({"message": f"User {user} banned!"}, 200)
+
+
+class FollowUser(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+    parser_classes = [JSONParser]
+
+    def get(self, request):
+        return Response({"message": "Send User login in post to follow"}, 200)
+
+    def post(self, request):
+        print(self.request.data)
+        if "login" in self.request.data:
+            try:
+                self.request.user.followed.add(CustomUser.objects.get(login=self.request.data["login"]))
+            except:
+                return Response({"message": "User does not exist"}, 400)
+        else:
+            return Response({"message": "Error: send User login in post to follow"}, 400)
+
+        return Response({"message": "Send User login in post to follow"}, 200)

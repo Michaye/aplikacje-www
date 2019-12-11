@@ -18,7 +18,8 @@ class RoomSerializer(serializers.ModelSerializer):
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
-    followed = serializers.SlugRelatedField(slug_field="login", queryset=CustomUser.objects.all(), many=True)
+    followed = serializers.SlugRelatedField(slug_field="login", queryset=CustomUser.objects.all(), many=True,
+                                            default=[])
 
     class Meta:
         model = CustomUser
