@@ -55,6 +55,7 @@ class CreateUser(APIView):
     def post(self, request):
         serializer = CustomUserSerializer(data=self.request.data)
         if serializer.is_valid():
+            serializer.save()
             return Response({"message": "User created!"}, 200)
         else:
             return Response({"message": "User creation failed!"}, 400)
