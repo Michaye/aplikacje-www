@@ -15,7 +15,7 @@ Sklonować repozytorium lokalnie:
 ```bash
 git clone "repo.git"
 ```
-W project/app_www/ należy zainstalować środowisko:
+W folderze ./project/app_www/ należy zainstalować i uruchomić środowisko:
 ```bash
 pipenv install
 pipenv shell
@@ -35,42 +35,46 @@ I uruchamiamy serwer:
 ```
 
 # Jak przetestować aplikacje
-ścieżki:
+ścieżki i ich przeznaczenia:
 
-     - dostep do bazy danych Django
+     - dostep do bazy danych Django (na admina należy się zalogować 
+     utworzonym wcześniej kontem superusera)
     path("admin/", admin.site.urls),
     
     path("api/", include("rest_framework.urls")),
     
-    - Strona startowa
+    - Strona startowa (GET)
     path("", Index.as_view(), name="index"),
     
-    - Zwraca liste zarejestrowanych użytkownikow
+    - Zwraca liste zarejestrowanych użytkownikow (GET)
     path("users/", Users.as_view(), name="users"),  
     
-    - Zwraca liste utworzonych pokojów
+    - Zwraca liste utworzonych pokojów (GET)
     path("rooms/", Rooms.as_view(), name="rooms"),  
     
-    - Zwraca liste dodanych komentarzy
+    - Zwraca liste dodanych komentarzy(GET)
     path("comments/", Comments.as_view(), name="comments"),
     
-    - Dodaj uzytkownika:
+    - Dodaj uzytkownika (POST):
     wymagane pola - login, email, password
     path("users/add/", CreateUser.as_view(), name="new_user"),
     
-    - Dodaj pokój
+    - Dodaj pokój (POST):
     wymagane pole - name
     path("rooms/add/", CreateRoom.as_view(), name="new_room"),
     
-    - dodaj komentarz
+    - dodaj komentarz (POST):
     wymagane pola - conetent, user(login), room(name)
     path("comments/add/", AddComment.as_view(), name="new_comment"),
     
-    - Edytuj profil, pola - name,  surname, email, login, password
+    - Edytuj profil (PATCH): 
+    pola - name,  surname, email, login, password
     path("users/edit/", EditProfile.as_view(), name="edit_profile"),
     
-    - Edytuj pokój, pola - name
+    - Edytuj pokój (PATCH):
+    pola - name
     path("rooms/edit/", EditRoom.as_view(), name="edit_room"),
     
     - Edytuj użytkownika address użytkownika (zalogowany użytkownik edytuje tutaj swój adres)
+    (PATCH)
     path("users/edit/address/", CreateUserAddress.as_view(), name="address"),
