@@ -168,7 +168,6 @@ class FollowUser(APIView):
         return Response({"message": "Send User login in post to follow"}, 200)
 
     def post(self, request):
-        print(self.request.data)
         if "login" in self.request.data:
             try:
                 self.request.user.followed.add(CustomUser.objects.get(login=self.request.data["login"]))
