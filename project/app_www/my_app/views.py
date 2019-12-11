@@ -177,4 +177,4 @@ class FollowUser(APIView):
         else:
             return Response({"message": "Error: send User login in post to follow"}, 400)
 
-        return Response({"message": "Send User login in post to follow"}, 200)
+        return Response({"message": "User followed!"}, 200)
