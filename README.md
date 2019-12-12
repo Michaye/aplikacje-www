@@ -56,7 +56,7 @@ I uruchamiamy serwer:
     path("comments/", Comments.as_view(), name="comments"),
     
     - Dodaj uzytkownika (POST):
-    wymagane pola - login, email, password
+    wymagane pola - login, email, password (min. 8 znaków, conajmniej jedna wielka litera)
     path("users/add/", CreateUser.as_view(), name="new_user"),
     
     - Dodaj pokój (POST):
@@ -78,3 +78,11 @@ I uruchamiamy serwer:
     - Edytuj użytkownika address użytkownika (zalogowany użytkownik edytuje tutaj swój adres)
     (PATCH)
     path("users/edit/address/", CreateUserAddress.as_view(), name="address"),
+
+    - Zbanuj użytkownika po numerze id (admin only)
+    (GET)
+    path("ban/user=<int:id>/", BanUser.as_view(), name="ban"),
+    
+    -Obserwuj innego użytkownika (GET, POST)
+    Metodą post należy wysłać login użytkownika, którego chcemy obserwować
+    path("users/follow/", FollowUser.as_view(), name="follow"),
