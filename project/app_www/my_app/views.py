@@ -5,6 +5,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.authtoken.models import Token
 
 
 class Index(APIView):
@@ -48,14 +49,20 @@ class Comments(APIView):
 
 
 class CreateUser(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
     parser_classes = [JSONParser]
 
     def post(self, request):
         serializer = CustomUserSerializer(data=self.request.data)
         if serializer.is_valid():
             serializer.save()
+            # if create_token(self.request.data):
+            #     return Response(
+            #         {"message": "User registered correctly"}, status=201
+            #     )
+            # else:
+            #     return Response(
+            #         {"message":"Creating token for user failed!"}, status=401
+            #     )
             return Response({"message": "User created!"}, 200)
         else:
             return Response({"message": "User creation failed!"}, 400)
@@ -178,3 +185,12 @@ class FollowUser(APIView):
             return Response({"message": "Error: send User login in post to follow"}, 400)
 
         return Response({"message": "User followed!"}, 200)
+
+
+# def create_token(data):
+#     try:
+#         user = CustomUser.objects.get(login=data["login"])
+#         Token.objects.create(user=user)
+#     except:
+#         return False
+#     return True
