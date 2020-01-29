@@ -193,3 +193,13 @@ class FollowUser(APIView):
             return Response({"message": "Error: send User login in post to follow"}, 400)
 
         return Response({"message": "User followed!"}, 200)
+
+
+class GetToken(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+    parser_classes = [JSONParser]
+
+    def get(self, request):
+        token = Token.objects.get(user=self.request.user)
+        return Response({"user": self.request.user.login, "token": token.key}, 200)

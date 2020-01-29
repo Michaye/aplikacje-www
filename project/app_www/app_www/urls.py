@@ -28,6 +28,7 @@ from my_app.views import (
     EditRoom,
     CreateUserAddress,
     BanUser,
+    GetToken,
     FollowUser,
 )
 
@@ -46,4 +47,5 @@ urlpatterns = [
     path("users/edit/address/", CreateUserAddress.as_view(), name="address"),
     path("ban/user=<int:id>/", BanUser.as_view(), name="ban"),
     path("users/follow/", FollowUser.as_view(), name="follow"),
+    path("users/token/", GetToken.as_view(), name="token"),
 ]
